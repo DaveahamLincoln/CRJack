@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} NewCashReceipt 
    Caption         =   "New Cash Receipt"
-   ClientHeight    =   2595
+   ClientHeight    =   2505
    ClientLeft      =   45
    ClientTop       =   375
    ClientWidth     =   6720
@@ -13,6 +13,47 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub TextBox1_Change()
+
+End Sub
+
+Private Sub Frame11_Click()
+
+End Sub
+
+Private Sub UserForm_Initialize()
+
+'Loads CRPrefixComboBox with the values from the "Config" sheet
+'To add/remove values:
+'0. Select the "Config" worksheet.
+'1. Edit the column in the "CR_Config" section labeled "Prefix List" as needed.
+'2. Click the "Formulas" tab.
+'3. Click the "Name Manager" button.
+'4. Select "PrefixList."
+'5. Click the "Delete" button.
+'6. Click the "New" button.
+'7. Type "PrefixList" (without quotes) in the "Name:" box.
+'8. Click in the "Refers to:" box.
+'9. Click and drag in the "Config" worksheet, selecting all of the cells in the "Prefix List" column except for the words "Prefix List."
+'10. Click OK.
+'11. Click OK.
+'12. Save the workbook.  CRPrefixComboBox will now contain the new prefixes.
+
+Dim cPre As Range
+Dim ws As Worksheet
+Set ws = Worksheets("Config")
+
+For Each cPre In ws.Range("PrefixList")
+    With Me.CRPrefixComboBox
+        .AddItem cPre.Value
+    End With
+Next cPre
+
+CREntryDateBox.Value = Format(Date, "mm/dd/yyyy")
+
+End Sub
+
+
 Private Sub CRCheckedCheckBox_Click()
     CRCheckedDateBox.Enabled = CRCheckedCheckBox
     If CRCheckedCheckBox.Value = True Then
@@ -47,39 +88,6 @@ Private Sub CRScanCheckBox_Click()
     Else: CRScanDateBox.BackColor = &H80000011
     End If
     
-End Sub
-
-
-Private Sub UserForm_Initialize()
-
-'Loads CRPrefixComboBox with the values from the "Config" sheet
-'To add/remove values:
-'0. Select the "Config" worksheet.
-'1. Edit the column in the "CR_Config" section labeled "Prefix List" as needed.
-'2. Click the "Formulas" tab.
-'3. Click the "Name Manager" button.
-'4. Select "PrefixList."
-'5. Click the "Delete" button.
-'6. Click the "New" button.
-'7. Type "PrefixList" (without quotes) in the "Name:" box.
-'8. Click in the "Refers to:" box.
-'9. Click and drag in the "Config" worksheet, selecting all of the cells in the "Prefix List" column except for the words "Prefix List."
-'10. Click OK.
-'11. Click OK.
-'12. Save the workbook.  CRPrefixComboBox will now contain the new prefixes.
-
-Dim cPre As Range
-Dim ws As Worksheet
-Set ws = Worksheets("Config")
-
-For Each cPre In ws.Range("PrefixList")
-    With Me.CRPrefixComboBox
-        .AddItem cPre.Value
-    End With
-Next cPre
-
-CREntryDateBox.Value = Format(Date, "mm/dd/yyyy")
-
 End Sub
 
 Private Sub NewCashReceiptCancel_Click()
@@ -159,13 +167,6 @@ End If
 'Creates a new CashReceipt Object
 Dim CR As CashReceipt
 Set CR = New CashReceipt
-
-'Checks to see if the form data is valid
-'   If it is,
-'      Loads The CashReceipt Object with Form Data.
-'   Else
-'       Raises exceptions.
-'If CR.Prefix
 
 CR.Prefix = CRPrefixComboBox.Value
 CR.Entry = CREntryNoBox.Value
@@ -387,7 +388,8 @@ End If
 '       ???Store the CR in the Completed_CR_Dictionary.
 '
 '   Else,
-'       Load the CR data into the Pending screen,
+'       Load the CR number into the proper month,
+'       ???Load the CR data into the Pending screen,
 '       Load the CR number into the proper month,
 '       ???Store the CR in the Keyed_CR_Dictionary,
 '       ???Store the CR in the Pending_CR_Dictionary.
