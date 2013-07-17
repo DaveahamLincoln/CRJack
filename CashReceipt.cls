@@ -9,6 +9,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Private cRPrefix As String
 Private cREntry As String
+Private cRAA As String
 Private cRCRDate As String
 Private cRKeyDate As String
 
@@ -47,6 +48,18 @@ End Property
 Property Let Entry(aEntry As String)
 
     cREntry = aEntry
+
+End Property
+
+Public Property Get AA() As String
+ 
+    AA = cRAA
+     
+End Property
+
+Property Let AA(aAA As String)
+
+    cRAA = aAA
 
 End Property
 

@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} NewCashReceipt
    ClientHeight    =   2505
    ClientLeft      =   45
    ClientTop       =   375
-   ClientWidth     =   6720
+   ClientWidth     =   8385
    OleObjectBlob   =   "NewCashReceipt.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,14 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub TextBox1_Change()
-
-End Sub
-
-Private Sub Frame11_Click()
-
-End Sub
-
 Private Sub UserForm_Initialize()
 
 'Loads CRPrefixComboBox with the values from the "Config" sheet
@@ -105,6 +97,15 @@ If CREntryNoBox.Text = vbNullString Then
     CREntryNoBox.SetFocus
     Exit Sub
     
+ElseIf CRAABox.Text = vbNullString Then
+    MsgBox "You need to enter an actual amount for this CR.", vbExclamation, "Missing Actual Amount!"
+    CRAABox.SetFocus
+    Exit Sub
+ElseIf IsNumeric(CRAABox.Value) = False Then
+    MsgBox CRAABox.Value & " is not a vald amount.  This field only accepts number values.", vbExclamation, "Invalid Date!"
+    CRAABox.SetFocus
+    Exit Sub
+    
 ElseIf CRCRDateBox = vbNullString Then
     MsgBox "You need to enter a CR date for this CR.", vbExclamation, "Missing CR Date!"
     CRCRDateBox.SetFocus
@@ -170,6 +171,7 @@ Set CR = New CashReceipt
 
 CR.Prefix = CRPrefixComboBox.Value
 CR.Entry = CREntryNoBox.Value
+CR.AA = CRAABox.Value
 CR.CRDate = CRCRDateBox.Value
 CR.KeyDate = CREntryDateBox.Value
 
@@ -404,10 +406,11 @@ If CR.StatusArray(0) = "CHECKED" And CR.StatusArray(1) = "RETURNED" And CR.Statu
     Range("A" & LastRow).Value = CR.KeyDate
     'Range("B" & LastRow).Value = ???
     Range("C" & LastRow).Value = CR.Prefix & CR.Entry
-    Range("D" & LastRow).Value = CR.CheckDate
-    Range("E" & LastRow).Value = CR.ReturnDate
-    Range("F" & LastRow).Value = CR.CompletedDate
-    Range("N" & LastRow).Value = CR.ScanDate
+    Range("D" & LastRow).Value = CR.AA
+    Range("E" & LastRow).Value = CR.CheckDate
+    Range("F" & LastRow).Value = CR.ReturnDate
+    Range("G" & LastRow).Value = CR.CompletedDate
+    Range("O" & LastRow).Value = CR.ScanDate
     
     'Changes to _CR page
     Worksheets(crpage).Activate
@@ -425,28 +428,30 @@ Else:
     Range("A" & LastRow).Value = CR.KeyDate
     'Range("B" & LastRow).Value = ???
     Range("C" & LastRow).Value = CR.Prefix & CR.Entry
+    Range("D" & LastRow).Value = CR.AA
+    
     If CR.CheckStatus = "NOT CHECKED" Then
-        Range("D" & LastRow).Value = CR.CheckStatus
+        Range("E" & LastRow).Value = CR.CheckStatus
     Else:
-        Range("D" & LastRow).Value = CR.CheckDate
+        Range("E" & LastRow).Value = CR.CheckDate
     End If
     
     If CR.ReturnStatus = "NOT RETURNED" Then
-        Range("E" & LastRow).Value = CR.ReturnStatus
+        Range("F" & LastRow).Value = CR.ReturnStatus
     Else:
-        Range("E" & LastRow).Value = CR.ReturnDate
+        Range("F" & LastRow).Value = CR.ReturnDate
     End If
         
     If CR.CompletedStatus = "NOT COMPLETE" Then
-        Range("F" & LastRow).Value = CR.CompletedStatus
+        Range("G" & LastRow).Value = CR.CompletedStatus
     Else:
-        Range("F" & LastRow).Value = CR.CompletedDate
+        Range("G" & LastRow).Value = CR.CompletedDate
     End If
     
     If CR.ScanStatus = "NOT SCANNED" Then
-        Range("N" & LastRow).Value = CR.ScanStatus
+        Range("O" & LastRow).Value = CR.ScanStatus
     Else:
-        Range("N" & LastRow).Value = CR.ScanDate
+        Range("O" & LastRow).Value = CR.ScanDate
     End If
     
     Worksheets(crpage).Activate
