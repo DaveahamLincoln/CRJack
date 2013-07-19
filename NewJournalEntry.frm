@@ -273,11 +273,11 @@ If JE.StatusArray(0) = "CHECKED" And JE.StatusArray(1) = "RETURNED" And JE.Statu
     Dim LastRow As Long
     LastRow = Range("A" & Rows.Count).End(xlUp).Row + 1
     Range("A" & LastRow).Value = JE.KeyDate
-    'Range("B" & LastRow).Value = ???
-    Range("C" & LastRow).Value = JE.Entry
-    Range("D" & LastRow).Value = JE.CheckDate
-    Range("E" & LastRow).Value = JE.ReturnDate
-    Range("F" & LastRow).Value = JE.CompletedDate
+    Range("B" & LastRow).Value = JE.Entry
+    'Range("C" & LastRow).Value = ???
+    Range("E" & LastRow).Value = JE.CheckDate
+    Range("F" & LastRow).Value = JE.ReturnDate
+    Range("G" & LastRow).Value = JE.CompletedDate
     Range("N" & LastRow).Value = JE.ScanDate
     
 '???Else log the entry in Pending.
@@ -288,21 +288,21 @@ Else:
     Range("B" & LastRow).Value = JE.Entry
     'Range("C" & LastRow).Value = ???
     If JE.CheckStatus = "NOT CHECKED" Then
-        Range("D" & LastRow).Value = JE.CheckStatus
+        Range("E" & LastRow).Value = JE.CheckStatus
     Else:
-        Range("D" & LastRow).Value = JE.CheckDate
+        Range("E" & LastRow).Value = JE.CheckDate
     End If
     
     If JE.ReturnStatus = "NOT RETURNED" Then
-        Range("E" & LastRow).Value = JE.ReturnStatus
+        Range("F" & LastRow).Value = JE.ReturnStatus
     Else:
-        Range("E" & LastRow).Value = JE.ReturnDate
+        Range("F" & LastRow).Value = JE.ReturnDate
     End If
         
     If JE.CompletedStatus = "NOT COMPLETE" Then
-        Range("F" & LastRow).Value = JE.CompletedStatus
+        Range("G" & LastRow).Value = JE.CompletedStatus
     Else:
-        Range("F" & LastRow).Value = JE.CompletedDate
+        Range("G" & LastRow).Value = JE.CompletedDate
     End If
     
     If JE.ScanStatus = "NOT SCANNED" Then
