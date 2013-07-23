@@ -278,7 +278,7 @@ If JE.StatusArray(0) = "CHECKED" And JE.StatusArray(1) = "RETURNED" And JE.Statu
     Range("E" & LastRow).Value = JE.CheckDate
     Range("F" & LastRow).Value = JE.ReturnDate
     Range("G" & LastRow).Value = JE.CompletedDate
-    Range("N" & LastRow).Value = JE.ScanDate
+    Range("O" & LastRow).Value = JE.ScanDate
     
 '???Else log the entry in Pending.
 
@@ -306,9 +306,9 @@ Else:
     End If
     
     If JE.ScanStatus = "NOT SCANNED" Then
-        Range("N" & LastRow).Value = JE.ScanStatus
+        Range("O" & LastRow).Value = JE.ScanStatus
     Else:
-        Range("N" & LastRow).Value = JE.ScanDate
+        Range("O" & LastRow).Value = JE.ScanDate
     End If
 
 End If
